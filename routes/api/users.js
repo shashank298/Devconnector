@@ -4,6 +4,8 @@ const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // @route   POST api/users
 // @desc    user registration
@@ -35,7 +37,7 @@ router.post(
           .json({ errors: [{ msg: 'user already exist' }] });
       }
       //get user gravitor
-      const avator = gravatar.url(email, {
+      const avatar = gravatar.url(email, {
         s: '200',
         r: 'pg',
         d: 'mm',
@@ -44,15 +46,29 @@ router.post(
       user = new User({
         name,
         email,
-        avator,
+        avatar,
         password,
       });
       //Encrypt password
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
       await user.save();
+      //console.log(consol);
       //return jsonwebToken
-      res.send('User registered');
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json(token);
+        }
+      );
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('internal server error');
