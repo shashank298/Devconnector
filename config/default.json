@@ -1,6 +1,6 @@
 {
-  "mongoURI": "mongodb+srv://kanna123:kanna123@devconnector-nphwy.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://kanna1234:kanna1234@devconnector-nphwy.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "veryverySecret",
-  "githubClientid": "467dd7db0a9d4c3f0441",
+  "githubClientid": "467dd7db0a9d4c3f04411",
   "githubSecret": "0d2e162fbfbe20c15b2a1cabbaf767e9c995dc77"
 }
